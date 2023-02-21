@@ -6,10 +6,13 @@ import { CardGrid, CardGridImage, CardGridItem } from "../CardGrid/CardGrid";
 import { useQuery } from "@tanstack/react-query";
 import { courseApi } from "../../api";
 import Loader from "../Loader";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 
 export function Courses() {
-
+    const { t, i18n } = useTranslation();
+    const [lang, setLang] = useState(localStorage.getItem("lang"));
     const { data: courses, isLoading, error } = useQuery({
         queryKey: ["courses"],
         queryFn: async () => {
@@ -20,12 +23,12 @@ export function Courses() {
     if (isLoading) return <Loader />
     if (error) return <h2>Hozirda kurslar mavjud emas...</h2>
     return (
-        <GridSection paddingTop="171px" title="-To’garaklar-" subtitle="Maktabimizdagi mavjud to’garaklar bilan tanishing">
+        <GridSection paddingTop="171px" title={t("courses.courses_title")} subtitle={t("courses.courses_text")}>
             <CardGrid gap="15px" itemWidth="300px">
                 {courses?.map((course, index) => (
                     <CardGridItem key={crypto.randomUUID()} colSpan={course.colSpan}>
                         <CardGridImage src={course.image} width={300} height={250} />
-                        <CourseBody title={course.titleUz} body={course.bodyUz} id={index + 1} />
+                        <CourseBody title={i18n.language === "ru" ? course.titleRu : course.titleUz} body={i18n.language === "ru" ? course.bodyRu : course.bodyUz} id={index + 1} />
                     </CardGridItem>
                 ))}
             </CardGrid>

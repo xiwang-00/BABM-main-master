@@ -41,7 +41,6 @@ export default function AdminTable({ tableFor, tableHeaders, page, hooks }) {
                     exact: true
                 })
             } catch (error) {
-                console.log(error);
                 toast.error("Xatolik yuz berdi");
             }
         }
@@ -76,7 +75,7 @@ export default function AdminTable({ tableFor, tableHeaders, page, hooks }) {
                     {tableInstance.getRowModel().rows.map(row => (
                         <StyledTableUnstyledRow key={row.id}>
                             {row.getVisibleCells().map(cell => {
-                                return <StyledTableData key={cell.id}>
+                                return <StyledTableData key={cell.id} >
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
 
                                 </StyledTableData>
